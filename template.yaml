@@ -62,15 +62,6 @@ objects:
     portalIP: ''
     type: ClusterIP
     sessionAffinity: None
-# - kind: ImageStream
-  # apiVersion: v1
-  # metadata:
-    # name: hadoop
-    # namespace: octest
-  # spec:
-    # dockerImageRepository: 192.168.1.5:5001/octest/hadoop
-    # tags:
-    # - name: latest
 - kind: DeploymentConfig
   apiVersion: v1
   metadata:
@@ -83,15 +74,6 @@ objects:
         intervalSeconds: 1
         timeoutSeconds: 120
     triggers:
-    # - type: ImageChange
-      # imageChangeParams:
-        # automatic: true
-        # containerNames:
-        # - hadoop-namenode
-        # - hadoop-datanode
-        # from:
-          # kind: ImageStreamTag
-          # name: hadoop:latest
     - type: ConfigChange
     replicas: 1
     selector:
@@ -103,8 +85,7 @@ objects:
       spec:
         containers:
         - name: hadoop-namenode
-          # image: hadoop
-          image: 192.168.1.5:5001/octest/hadoop
+          image: localhost:5000/test/hadoop
           args:
           - start_namenode.sh
           ports:
@@ -166,14 +147,6 @@ objects:
         intervalSeconds: 1
         timeoutSeconds: 120
     triggers:
-    # - type: ImageChange
-      # imageChangeParams:
-        # automatic: true
-        # containerNames:
-        # - hadoop-datanode
-        # from:
-          # kind: ImageStreamTag
-          # name: hadoop:latest
     - type: ConfigChange
     replicas: 1
     selector:
@@ -185,8 +158,7 @@ objects:
       spec:
         containers:
         - name: hadoop-datanode
-          # image: hadoop
-          image: 192.168.1.5:5001/octest/hadoop
+          image: localhost:5000/test/hadoop
           args:
           - start_datanode.sh
           ports:
